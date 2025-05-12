@@ -100,11 +100,9 @@ või
 ## 3. Veebirakenduse ja Dockeri eemaldamine
 1. Peata ja eemalda konteiner:
    ```bash
-   docker stop guitar-app
+   docker stop guitar-app && docker rm guitar-app
       ```
-   ```bash
-   docker rm guitar-app
-      ```
+
 2. Eemalda tõmmisfail:
    ```bash
    docker image rm guitar-app-image

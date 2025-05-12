@@ -341,7 +341,7 @@ form#search-form button:hover {
 /* -- LEMMIKUKS MÄRKIMISE FUNKTS */
 
 .favourite-toggle {
-  background: none;
+  background: white;
   border: none;
   cursor: pointer;
   padding: 0;
