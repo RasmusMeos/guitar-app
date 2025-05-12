@@ -41,7 +41,7 @@ Alternatiivselt, võib API-võtit küsida autorilt.
 Järgnevad tegevused saab sooritada otse Docker Desktopi terminalis. Selleks vali alt ribalt Terminal -> Enable.
 macOS-i puhul võib sobivam olla kasutada süsteemi terminali.
 
-2.1 Dockeri tõmmisfaili loomine (Docker image)
+2.2 Dockeri tõmmisfaili loomine (Docker image)
 
 1) Liigu kausta, kuhu zip-fail sai lahti pakitud. Näiteks::
 cd Downloads/<kausta nimi>
@@ -52,7 +52,7 @@ docker build -t guitar-app-image .
 
 3) Docker loob veebirakendusest tõmmisfaili, mille saame konteineriseerida ja jooksutada.
 
-2.2 Docker konteineri loomine ja käivitamine
+2.3 Docker konteineri loomine ja käivitamine
 
 1) Sisesta käsk:
 docker run -d -p 5001:5000 --env-file .env --name guitar-app guitar-app-image
