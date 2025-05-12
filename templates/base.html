@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="../static/css/app.css">
+    <link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}" type="image/x-icon">
+    <title>{% block title %}Akordiotsing{% endblock %}</title>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-logo">
+            <a href="{{ url_for('main.index') }}">
+            <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo" />
+            </a>
+        </div>
+        {% if session.get('user_id') %}
+        <div class="nav-links">
+            <a href="{{ url_for('main.index') }}">Avaleht</a>
+            <a href="{{ url_for('main.my_chords') }}">Minu akordid</a>
+            <a href="{{ url_for('main.favourites') }}">Minu lemmikud</a>
+            <form id="logout-form" action="{{ url_for('auth.logout') }}" method="POST" style="display:inline;">
+                <button type="submit">Logi välja</button>
+            </form>
+        </div>
+        {% endif %}
+    </nav>
+
+    <main>
+        {% block content %}{% endblock %}
+        {% include "partials/messages.html" %}
+    </main>
+
+    <script>
+      setTimeout(() => {
+          const messages = document.querySelectorAll(".flash");
+              messages.forEach(el => {
+                  el.classList.add("fade-out");
+              });
+              setTimeout(() => {
+                  const container = document.getElementById("flash-container");
+                  if (container) container.remove();
+              }, 400);
+      }, 2500);
+    </script>
+
+</body>
+</html>

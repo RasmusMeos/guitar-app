@@ -1,0 +1,478 @@
+/* FLASH TEATED */
+.flash {
+    opacity: 1;
+    transition: opacity 0.4s ease-out;
+    border-radius: 3px;
+    display: inline-block;
+}
+
+.flash.fade-out {
+    opacity: 0;
+}
+
+.flash-messages {
+  list-style: none;
+  padding: 1em;
+  margin: 1em 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.flash.success {
+  color: #1b811b;
+  background-color: #ebffeb;
+  padding: 5px;
+}
+
+.flash.error {
+  color: #e30d0d;
+  background-color: #fdeeee;
+  padding: 5px;
+}
+
+/* -- base.html -- */
+
+/* PÕHIPAIGUTUS */
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;  margin: 0;
+  padding: 0;
+  background: #f9f9f9;
+  color: #292929;
+}
+
+/* NAVIGEERIMISRIBA */
+.navbar {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.5rem 1rem;
+  background: #222222;
+  height: 4rem;
+  color: #fbfbfb;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  box-shadow: 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+}
+ /* Logo pildi kuvamine */
+.nav-logo {
+  flex: 0 0 25%;
+  max-height: 100%;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.nav-logo img {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.nav-links#logout-form {
+  vertical-align: middle;
+  margin-top: 1px;
+}
+
+/* NUPUD JA LINGID */
+.navbar a,
+.navbar button {
+  color: #fbfbfb;
+  text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.25rem;
+}
+.navbar a:hover,
+.navbar button:hover {
+  text-decoration: underline;
+}
+.navbar form {
+  display: inline;
+}
+
+/* LEHEKÜLJE SISU KONTEINER */
+main {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  align-items: center;
+}
+
+h1, h2, h3 {
+  text-align: center;
+}
+
+/* -- index.html -- */
+
+form#search-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+form#search-form input[type="text"] {
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+  max-width: 400px;
+  box-sizing: border-box;
+}
+
+form#search-form button {
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  background-color: #575757;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+form#search-form button:hover {
+  background-color: #393939;
+}
+
+/* OTSIMISE SPINNER */
+
+#loading-screen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+  gap: 1.5rem;
+}
+#loading-screen.hidden {display: none}
+
+#loading-text {
+  white-space: nowrap;
+  color: #222222;
+}
+
+.spinner {
+  border: 4px solid #ddd;
+  border-top: 4px solid #3ca82d;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+/* JUHISED ning MÄRKUSED */
+.instructions-box {
+  margin-top: 2rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  background-color: #f1f1f1;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 0.95rem;
+}
+
+.instructions-box summary {
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 1.05rem;
+  list-style: none;
+}
+
+.instructions-box summary::-webkit-details-marker {
+  display: none;
+}
+
+.instructions-box summary::before {
+  content: "▸ ";
+  display: inline-block;
+  transition: transform 0.2s;
+}
+
+.instructions-box[open] summary::before {
+  transform: rotate(90deg);
+}
+
+
+
+/* -- login.html ja register.html -- */
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  max-width: 100vw;
+  margin-top: 2rem;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.auth-form div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 50%;
+}
+
+.auth-form label {
+  margin-top: 1rem;
+  text-align: left;
+  font-size: 1.1rem;
+}
+
+.auth-form input {
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #c1c1c1;
+  border-radius: 7px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.auth-form button {
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  background-color: #575757;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
+
+.auth-form button:hover {
+  background-color: #393939;
+}
+
+/* kasutusel ka results.html ja song.html failides */
+.redirect {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.redirect a {
+  color: #2a5db0;
+  text-decoration: none;
+}
+
+.redirect a:hover {
+  text-decoration: underline;
+}
+
+
+/* -- my_chords.html -- */
+
+.chord-selection-form {
+  display: flex;
+  flex-direction: column;
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border-radius: 10px;
+  padding: 2rem;
+  max-width: 100%;
+  margin: 2rem auto;
+}
+
+.chord-selection-form fieldset {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.chord-selection-form legend {
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.chord-selection-form label {
+  display: inline-block;
+  margin-right: 12px;
+  margin-bottom: 8px;
+  font-size: 1rem;
+}
+
+.chord-selection-form input[type="checkbox"] {
+  margin-right: 4px;
+  transform: scale(1.1); /* natuke suuremaks */
+}
+
+.chord-selection-form button {
+  padding: 0.6rem 1.2rem;
+  align-self: center;
+  font-size: 1rem;
+  background-color: #575757;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.chord-selection-form button:hover {
+  background-color: #393939;
+}
+
+
+/* -- results.html -- */
+
+/* -- LEMMIKUKS MÄRKIMISE FUNKTS */
+
+.favourite-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.fav-icon {
+  width: 32px;
+  height: 32px;
+}
+
+/* TEISED STIILID */
+
+.song-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.song-card {
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 1.25rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.song-card a {
+  text-decoration: none;
+  color: #292929;
+}
+.song-card a:hover {
+  text-decoration: underline;
+}
+
+.song-card h2 {
+  font-size: 1.4rem;
+  margin-bottom: 0.25rem;
+}
+
+.song-card h3 {
+  font-size: 1rem;
+  font-weight: normal;
+  color: #555;
+  margin-bottom: 0.75rem;
+}
+
+.song-card p {
+  margin: 0.5rem 0;
+}
+
+.song-card code {
+  background-color: #eee;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 0.9rem;
+}
+
+/* -- song.html -- */
+
+.song-title {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.song-key {
+  font-size: 1.25rem;
+  color: #555;
+  margin-bottom: 1rem;
+}
+
+.video-container {
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.video-container iframe {
+  border-radius: 5px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  max-width: 100%;
+}
+
+.song-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #ccc;
+  padding: 1rem;
+  border-radius: 8px;
+  background-color: #f0f0f0;
+  margin-bottom: 1rem;
+}
+
+.song-actions label,
+.song-actions select {
+  font-size: 1rem;
+}
+ .song-actions input[type="checkbox"] {
+  transform: scale(1.5);
+   margin-left: 0.5rem;
+}
+
+#favourite-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+
+#chords-tab {
+  background-color: #fff;
+  padding: 1rem;
+  border: 1px dashed #888;
+  font-family: monospace;
+  font-size: 1rem;
+  white-space: pre-wrap;
+  border-radius: 6px;
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
+}
+
+
+
+
+
+
+
+
+
+

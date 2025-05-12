@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Registreeru{% endblock %}
+{% block content %}
+<h2>Loo konto</h2>
+   <form method="POST" action="{{ url_for('auth.register') }}" class="auth-form">
+       <div>
+           <label for="username">Kasutajanimi: </label>
+           <input type="text" name="username" id="username" value="{{ username|default('') }}" required>
+       </div>
+       <div>
+           <label for="password">Parool: </label>
+            <input type="password" id="password" name="password" required>
+       </div>
+       <div>
+           <label for="confirm_pwd">Kinnita parool: </label>
+           <input type="password" id="confirm_pwd" name="confirm_pwd" required>
+       </div>
+
+     <button type="submit">Registreeri</button>
+   </form>
+{% endblock %}

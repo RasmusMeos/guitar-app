@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+<h1>{{ page_title }}</h1>
+
+<div class="song-cards">
+  {% for song in songs %}
+    {% set all_chords = song.chord_positions.keys() | list %}
+    {% set known_matches = all_chords | select("in", known_chords) | list %}
+    {% set unknown_matches = all_chords | reject("in", known_chords) | list %}
+    {% set match_ratio = (known_matches | length) / (all_chords | length) if all_chords else 0 %}
+
+    <div class="song-card">
+      <a href="{{ url_for('main.song') }}?id={{ song.id }}&artist={{ artists[song.id] }}
+"
+         data-tab="{{ song.tab | tojson | safe }}"
+         data-chord-positions="{{ song.chord_positions }}"
+         data-in-key="{{ song.in_key }}">
+        <h2>{{ song.title }}</h2>
+      </a>
+      <h3>{{ artists[song.id] }}</h3>
+      <p>Sobivus: <strong>{{ (match_ratio * 100) | round(1) }}%</strong></p>
+      {% if unknown_matches %}
+        <p>Akordid, mis tuleks ära õppida:
+          {% for chord in unknown_matches %}
+            <code>{{ chord }}</code>{% if not loop.last %}, {% endif %}
+          {% endfor %}
+        </p>
+      {% endif %}
+      <button class="favourite-toggle" data-song-id="{{ song.id }}">
+        <img
+          src="{{ url_for('static', filename='img/fav_on.png') if song.is_favourite else url_for('static', filename='img/fav_off.png') }}"
+          alt="Toggle Favourite"
+          class="fav-icon"
+        >
+      </button>
+
+
+    </div>
+  {% endfor %}
+</div>
+
+<p class="redirect"><a href="{{ url_for('main.index') }}">Tagasi avalehele</a></p>
+<script src="{{ url_for('static', filename='js/toggle_favourite_cards.js') }}"></script>
+{% endblock %}

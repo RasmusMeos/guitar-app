@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Minu akordid{% endblock %}
+{% block content %}
+  <h1>Minu akordid</h1>
+  <h3>Vali, nendest tuntumatest kitarriakordidest, mida oskad juba mängida:</h3>
+  {% include "partials/messages.html" %}
+  <form method="POST" action="{{ url_for('main.my_chords') }}" class="chord-selection-form">
+    {% for category, chords in chords_by_category.items() %}
+      <fieldset>
+        <legend>{{ category|capitalize }}</legend>
+        {% for chord in chords %}
+          <label>
+            <input type="checkbox" name="chords" value="{{ chord.id }}"
+                   {% if chord.selected %}checked{% endif %}>
+            {{ chord.chord }}
+          </label>
+        {% endfor %}
+      </fieldset>
+    {% endfor %}
+    <button type="submit">Salvesta muudatused</button>
+  </form>
+{% endblock %}

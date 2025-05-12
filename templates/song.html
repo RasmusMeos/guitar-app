@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}{{ title }} - Akordid {% endblock %}
+{% block content %}
+  <h1 class="song-title">{{ title }}</h1>
+  <h2 class="song-key"> Tuvastatud helistik: {{ in_key }}</h2>
+{% if yt_url %}
+  <div class="video-container">
+    <iframe width="560" height="315"
+            src="{{ yt_url | replace('watch?v=', 'embed/') }}"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+    </iframe>
+  </div>
+{% endif %}
+
+<div class="song-actions">
+  <label for="transpose">Muuda helistikku</label>
+  <select id="transpose"><!-- javascriptiga täidetud --></select>
+    <label>Lihtsusta akorde<input type="checkbox" id="simplify-toggle"></label>
+  <button class="favourite-toggle" data-song-id="{{ song_id }}">
+    <img
+      src="{{ url_for('static', filename='img/fav_on.png') if is_favourite else url_for('static', filename='img/fav_off.png') }}"
+      alt="Toggle Favourite"
+      class="fav-icon"
+    >
+  </button>
+</div>
+
+
+  <pre id="chords-tab" style="white-space: pre-wrap;">{{ tab }}</pre>
+
+  <p class="redirect"><a href="{{ url_for('main.index') }}">Tagasi avalehele</a></p>
+
+  <script>
+  window.songData = {
+    keyIdentified: "{{ in_key }}",
+    chordPositions: {{ chord_positions|tojson }},
+    currentTabText: {{ tab|tojson|safe }},
+    songId: {{ song_id }},
+    baseTabText: {{ tab|tojson|safe }}
+  };
+  </script>
+<script src="{{ url_for('static', filename='js/song_actions.js') }}"></script>
+{% endblock %}

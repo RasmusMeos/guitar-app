@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Avaleht{% endblock %}
+{% block content %}
+<h1>Avaleht</h1>
+<form id="search-form" action="{{ url_for('main.search') }}" method="POST">
+  <input type="text" name="artist" placeholder="Otsi artisti" required>
+  <button type="submit">Otsi</button>
+</form>
+
+<div id="loading-screen" class="hidden">
+  <div id="loading-text"></div>
+  <div class="spinner"></div>
+</div>
+{% include "partials/summary.html" %}
+
+
+<script src="{{ url_for('static', filename='js/spinner.js') }}"></script>
+{% endblock %}
+
+

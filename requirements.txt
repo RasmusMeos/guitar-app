@@ -1,0 +1,5 @@
+Flask==3.1.0
+beautifulsoup4==4.13.3
+pychord==1.2.2
+requests==2.32.3
+urllib3==2.4.0

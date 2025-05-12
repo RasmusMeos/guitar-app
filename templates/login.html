@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Logi sisse{% endblock %}
+{% block content %}
+<h2>Logige oma kontole sisse</h2>
+<form method="POST" action="{{ url_for('auth.login') }}" class="auth-form">
+    <div>
+        <label for="username">Kasutajanimi:</label>
+        <input type="text" id="username" name="username" value="{{ username|default('') }}" required>
+    </div>
+    <div>
+        <label for="password">Parool:</label>
+        <input type="password" id="password" name="password" required>
+    </div>
+    <button type="submit">Sisene</button>
+</form>
+<p class="redirect">Kontot veel pole? <a href="{{ url_for('auth.register') }}">Registreeri</a></p>
+{% endblock %}
