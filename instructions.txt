@@ -82,6 +82,7 @@ docker rm guitar-app
 docker image rm guitar-app-image
 
 3) Sulge Docker Desktop ja deinstalli rakendus.
+Lisainfo: https://docs.docker.com/desktop/uninstall/
 
 
 

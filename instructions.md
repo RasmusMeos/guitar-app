@@ -58,10 +58,10 @@ Selle rakenduse seadistamiseks on vaja installida Docker:
 - **FLASK_SECRET_KEY:** `<suvaline sõne väärtus>` — asenda suvalise tekstiga (kasutatakse sessioonihalduseks)
 - **SERPER_API_KEY:** `<Serper API võti>` — asenda API-võtmega, mille saad tasuta luua lehel: https://serper.dev/.
 
-Alternatiivselt, võib API-võtit küsida autorilt.
+   Alternatiivselt, võib API-võtit küsida autorilt.
 
-Järgnevad tegevused saab sooritada otse Docker Desktopi terminalis. Selleks vali alt ribalt **Terminal → Enable**.
-macOS-i puhul võib sobivam olla kasutada süsteemi terminali.
+   Järgnevad tegevused saab sooritada otse Docker Desktopi terminalis. Selleks vali alt ribalt **Terminal → Enable**.
+   macOS-i puhul võib sobivam olla kasutada süsteemi terminali.
 
 ### 2.2 Dockeri tõmmisfaili loomine (Docker image)
 
@@ -69,7 +69,7 @@ macOS-i puhul võib sobivam olla kasutada süsteemi terminali.
    ```bash
    cd Downloads/<kausta nimi>
    ```
-Asenda `<kausta nimi>` lahti pakitud kausta nimega.
+   Asenda `<kausta nimi>` lahti pakitud kausta nimega.
 
 2. Sisesta käsk:
    ```bash
@@ -82,7 +82,7 @@ Asenda `<kausta nimi>` lahti pakitud kausta nimega.
    ```bash
    docker run -d -p 5001:5000 --env-file .env --name guitar-app guitar-app-image
       ```
-Kui port 5001 on hõivatud, asenda see näiteks väärtusega 5002.
+   Kui port 5001 on hõivatud, asenda see näiteks väärtusega 5002.
 
 2. Veebirakendus nüüd töötab. Ava brauseris:
 -  http://localhost:5001/
@@ -118,6 +118,8 @@ Kui port 5001 on hõivatud, asenda see näiteks väärtusega 5002.
    docker image rm guitar-app-image
       ```
 3. Sulge Docker Desktop ja deinstalli rakendus.
+
+   Lisainfo: https://docs.docker.com/desktop/uninstall/
 
 
 
