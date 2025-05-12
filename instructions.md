@@ -56,7 +56,8 @@ Selle rakenduse seadistamiseks on vaja installida Docker:
    SERPER_API_KEY=<Serper API võti>
    ```
 - **FLASK_SECRET_KEY:** `<suvaline sõne väärtus>` — asenda suvalise tekstiga (kasutatakse sessioonihalduseks)
-- **SERPER_API_KEY:** `<Serper API võti>` — asenda API-võtmega, mille saad tasuta luua lehel: https://serper.dev/
+- **SERPER_API_KEY:** `<Serper API võti>` — asenda API-võtmega, mille saad tasuta luua lehel: https://serper.dev/.
+
 Alternatiivselt, võib API-võtit küsida autorilt.
 
 Järgnevad tegevused saab sooritada otse Docker Desktopi terminalis. Selleks vali alt ribalt **Terminal → Enable**.
@@ -82,12 +83,18 @@ Asenda `<kausta nimi>` lahti pakitud kausta nimega.
    docker run -d -p 5001:5000 --env-file .env --name guitar-app guitar-app-image
       ```
 Kui port 5001 on hõivatud, asenda see näiteks väärtusega 5002.
+
 2. Veebirakendus nüüd töötab. Ava brauseris:
 -  http://localhost:5001/
-või
+  
+   või
+
 - http://127.0.0.1:5001/
 
 3. Loo omale konto. Ainuke piirang on, et parool peab olema vähemalt **8 tähemärki**.
+
+   **NB!** Veebirakendus kasutab lokaalset andmebaasi ning seega kontoandmeid kuhugi välja ei saadeta.
+
 4. Et peatada rakendus:
    ```bash
    docker stop guitar-app
@@ -100,7 +107,10 @@ või
 ## 3. Veebirakenduse ja Dockeri eemaldamine
 1. Peata ja eemalda konteiner:
    ```bash
-   docker stop guitar-app && docker rm guitar-app
+   docker stop guitar-app
+      ```
+      ```bash
+   docker rm guitar-app
       ```
 
 2. Eemalda tõmmisfail:
