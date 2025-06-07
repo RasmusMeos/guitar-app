@@ -35,7 +35,7 @@ def register():
             session['user_id'] = user_id
             session['username'] = username
             flash("Kasutaja edukalt loodud!", "success")
-            return redirect(url_for("main.my_chords"))
+            return redirect(url_for("main.index"))
         except sqlite3.Error:
             flash("Viga konto loomisel. Palun proovige uuesti!", "error")
             return render_template("register.html")
