@@ -26,15 +26,19 @@ def register():
             flash("Parool peab olema vähemalt 8 tähemärki!", "error")
             return render_template("register.html",username=username)
 
-        user_id = insert_user(username, generate_password_hash(password))
-        if user_id is None:
-            flash("Kasutajanimi juba võetud", "error")
+        if get_user_by_username(username):
+            flash("Kasutajanimi juba võetud!", "error")
             return render_template("register.html")
 
-        session['user_id'] = user_id
-        session['username'] = username
-        flash("Kasutaja edukalt loodud!", "success")
-        return redirect(url_for("main.index"))
+        try:
+            user_id = insert_user(username, generate_password_hash(password))
+            session['user_id'] = user_id
+            session['username'] = username
+            flash("Kasutaja edukalt loodud!", "success")
+            return redirect(url_for("main.my_chords"))
+        except sqlite3.Error:
+            flash("Viga konto loomisel. Palun proovige uuesti!", "error")
+            return render_template("register.html")
     return render_template("register.html")
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
