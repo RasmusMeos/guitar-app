@@ -4,9 +4,7 @@ from bs4 import BeautifulSoup
 import urllib3
 from app.errors import ErrorCode
 import logging
-from dotenv import load_dotenv
 logger = logging.getLogger(__name__)
-load_dotenv()
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
