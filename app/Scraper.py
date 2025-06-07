@@ -4,14 +4,16 @@ from bs4 import BeautifulSoup
 import urllib3
 from app.errors import ErrorCode
 import logging
+from dotenv import load_dotenv
 logger = logging.getLogger(__name__)
+load_dotenv()
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 class Scraper:
     def __init__(self):
         self.headers = {"User-Agent": "Mozilla/5.0"}
-        self.SERPER_API_KEY = os.getenv("SERPER_API_KEY")  # demo eesmärgil on API võti kaasas
+        self.SERPER_API_KEY = os.getenv("SERPER_API_KEY")
 
     # --- ABIMEETODID ---
 
@@ -102,8 +104,6 @@ class Scraper:
         '''
         Esitab päringu https://serper.dev/ API-le ning tagastab artisti AZChords lehekülje lingi
         '''
-        if artist_name.lower().startswith("the "): # AZChords ei kasuta "The" prefiksi
-            artist_name = artist_name[4:]
 
         url = "https://google.serper.dev/search"
         headers = {
@@ -111,7 +111,7 @@ class Scraper:
             "Content-Type": "application/json"
         }
         payload = {
-            "q": f"site:azchords.com \"{artist_name} chords\""
+            "q": f"site:azchords.com inurl:-chords- {artist_name}",
         }
 
         response = requests.post(url, headers=headers, json=payload)
