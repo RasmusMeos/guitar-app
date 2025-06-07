@@ -5,11 +5,7 @@
   <h2 class="song-key"> Tuvastatud helistik: {{ in_key }}</h2>
 {% if yt_url %}
   <div class="video-container">
-    <iframe width="560" height="315"
-            src="{{ yt_url | replace('watch?v=', 'embed/') }}"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen>
-    </iframe>
+    <iframe src="{{ yt_url | replace('watch?v=', 'embed/') }}" allowfullscreen> </iframe>
   </div>
 {% endif %}
 
