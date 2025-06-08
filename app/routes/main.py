@@ -52,7 +52,7 @@ def search():
         artist_id = artist["id"]
         artist_name = artist["a_name"]
 
-    # Esitame päringu 5 suvalise loo jaoks
+    # Esitame päringu 7 suvalise loo jaoks
     songs_to_display_or_process: List[dict] = songs.get_random_songs_for_display(artist_id, limit=7)
 
     results: list[dict] = []
@@ -98,6 +98,18 @@ def search():
 
     # koostame dicti, millisele artistile lood kuuluvad (struktuuri on vaja kuvamiseks)
     artists_dict: dict[int, str] = {result["id"]: artist_name for result in results}
+
+    for s in results:
+        all_chords = list(s["chord_positions"].keys())
+        known_matches = [c for c in all_chords if c in known_chords]
+        unknown_matches = [c for c in all_chords if c not in known_chords]
+        match_ratio = len(known_matches) / len(all_chords) if all_chords else 0
+        s["match_ratio"] = match_ratio
+        s["unknown_matches"] = unknown_matches
+
+    results.sort(key=lambda mr: mr["match_ratio"], reverse=True)
+
+
 
     return render_template('results.html', page_title=f"Otsingutulemused - {artist_name}", artists=artists_dict, songs=results, known_chords=known_chords)
 
@@ -222,6 +234,16 @@ def favourites():
     known_chords: list[str] = chords.get_user_known_chords(session["user_id"])
 
     artists_dict: dict[int, str] = {fav_song["id"]: fav_song["artist_name"] for fav_song in fav_songs}
+
+    for s in fav_songs:
+        all_chords = list(s["chord_positions"].keys())
+        known_matches = [c for c in all_chords if c in known_chords]
+        unknown_matches = [c for c in all_chords if c not in known_chords]
+        match_ratio = len(known_matches) / len(all_chords) if all_chords else 0
+        s["match_ratio"] = match_ratio
+        s["unknown_matches"] = unknown_matches
+
+    fav_songs.sort(key=lambda mr: mr["match_ratio"], reverse=True)
 
     return render_template("results.html", page_title="Lemmikuks märgitud lood", artists=artists_dict, songs=fav_songs, known_chords=known_chords)
 

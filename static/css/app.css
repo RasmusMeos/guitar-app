@@ -354,11 +354,35 @@ form#search-form button:hover {
 
 /* TEISED STIILID */
 
+.ordering {
+  display: flex;
+  justify-content: right;
+}
+#toggle-ordering {
+  padding: 0.6rem 0.6rem;
+  font-size: 1rem;
+  margin-top: 2rem;
+  background-color: #575757;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#toggle-ordering:hover {
+    background-color: #393939;
+
+}
+
 .song-cards {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
   margin-top: 2rem;
+}
+
+.song-cards.reversed {
+  flex-direction: column-reverse;
 }
 
 .song-card {
