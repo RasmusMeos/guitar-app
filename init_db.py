@@ -25,7 +25,7 @@ def initialize_database():
              user_id INTEGER,
              chord_id INTEGER,
              PRIMARY KEY (user_id, chord_id),
-             FOREIGN KEY (user_id) REFERENCES users(id),
+             FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
              FOREIGN KEY (chord_id) REFERENCES chords(id)
              )
         ''')

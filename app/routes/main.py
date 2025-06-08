@@ -164,6 +164,17 @@ def song():
 
 @main_bp.route('/my-chords', methods=['GET', 'POST'])
 def my_chords():
+
+    categories = {
+        "major": "Mažoorkolmkõlad",
+        "minor": "Minoorkolmkõlad",
+        "power": "<i>Power</i>-akordid",
+        "dom7th": "Dominantseptakordid",
+        "diminished": "Vähendatud kolmkõlad",
+        "suspended": "<i>Suspended</i>-akordid",
+        "add": "<i>Added</i>-akordid",
+        "aug": "Suurendatud kolmkõlad",
+    }
     if "user_id" not in session:
         return redirect(url_for('auth.login'))
 
@@ -174,7 +185,14 @@ def my_chords():
         return redirect(url_for('main.my_chords'))
 
     chords_by_category = chords.get_all_chords_with_user_selection(session["user_id"])
-    return render_template('my_chords.html', chords_by_category=chords_by_category)
+
+    converted_categories = {}
+
+    for key, val in chords_by_category.items():
+        label = categories.get(key, key)
+        converted_categories[label] = val
+
+    return render_template('my_chords.html', chords_by_category=converted_categories)
 
 
 @main_bp.route('/transpose', methods=['POST'])
