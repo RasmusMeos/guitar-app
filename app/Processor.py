@@ -1,4 +1,4 @@
-from typing import Dict, Tuple, List, Any
+from typing import Dict, Tuple, List, Any, Set
 import re
 from pychord import Chord
 from pychord.utils import note_to_val
@@ -45,9 +45,12 @@ class Processor:
         "Gb": "F#",
     }
 
+    ALLOWED_DOM_7TH: Set[str] = {"C7", "D7", "E7", "G7", "A7", "B7"}
+
     # --- AKORDIDE TUVASTAMINE ---
 
-    def _extract_chords_line_by_line(self, text: str) -> Tuple[Dict[str, int], Dict[str, List[Tuple[int, int]]]]:
+    @staticmethod
+    def _extract_chords_line_by_line(text: str) -> Tuple[Dict[str, int], Dict[str, List[Tuple[int, int]]]]:
         """
         Otsib kitarriakorde tekstist kasutades regex mustrit.
         Sobitab ridu, mis koosnevad ainult akordidest
@@ -106,12 +109,16 @@ class Processor:
 
             is_minor = False
             is_dom_7th = False
+            is_power = False
 
             if q.startswith("m") and not q.startswith("maj"):
                 quality = "m"
                 is_minor = True
             elif "dim" in q:
                 quality = "dim"
+            elif q == "5":
+                is_power = True
+                quality = "5"
             else:
                 quality = ""
 
@@ -123,13 +130,15 @@ class Processor:
                 "quality": quality,
                 "is_minor": is_minor,
                 "is_dom_7th": is_dom_7th,
+                "is_power": is_power,
             }
         except ValueError:
             # varuvariant
-            match = re.match(r"^([A-G][#b]?)(m(?!aj)|dim|7)?", chord_str)
+            match = re.match(r"^([A-G][#b]?)(5|m(?!aj)|dim|7)?", chord_str)
             if match:
                 root = match.group(1)
                 quality = match.group(2) or ""
+                is_power = quality == "5"
                 is_minor = quality == "m"
                 is_dom7 = quality.startswith("7") if quality and not quality.startswith(
                     ("maj", "dim")) else False  # igaks juhuks maj/dim kontroll
@@ -138,6 +147,7 @@ class Processor:
                     "quality": quality,
                     "is_minor": is_minor,
                     "is_dom_7th": is_dom7,
+                    "is_power": is_power,
                 }
 
             return None
@@ -212,7 +222,8 @@ class Processor:
 
     # --- HELISTIKU TUVASTAMINE ---
 
-    def _score_key(self, chord_counts: Dict[str, int], scale_weights: Dict[str, float]) -> float:
+    @staticmethod
+    def _score_key(chord_counts: Dict[str, int], scale_weights: Dict[str, float]) -> float:
         '''
         Kaalutud skoori arvutamine ühe konktreetse skaala joaks loos esineva akordide arvu põhjal
         Tagastatud skoori kasutatakse helistiku tuvastamiseks
@@ -407,8 +418,14 @@ class Processor:
             if not parsed:
                 simplified[chord] = chord
             elif parsed["is_dom_7th"]:
-                simplified[chord] = parsed["root"] + "7"
+                dom7th_chord = parsed["root"] + "7"
+                if dom7th_chord in Processor.ALLOWED_DOM_7TH:
+                    simplified[chord] = dom7th_chord
+                else:
+                    simplified[chord] = parsed["root"]
             elif parsed["is_minor"]:
+                simplified[chord] = parsed["root"] + parsed["quality"]
+            elif parsed["is_power"]:
                 simplified[chord] = parsed["root"] + parsed["quality"]
             else:
                 simplified[chord] = parsed["root"]
@@ -425,12 +442,12 @@ class Processor:
             original_len = end - start
             new_len = len(new_chord)
 
-            assert new_len <= original_len, (
-                f"Lihtsustatud akord {new_chord!r} pikem kui originaalne {origin_chord!r}"
-            )
-
-            display_chord = new_chord.ljust(original_len) # lihtsustatud akord on alati ülimalt sama pikk kui originaalne
-            text_chars[start:end] = list(display_chord)
+            # lihtsustatud akord peaks alati olema ülimalt sama pikk kui originaalne
+            if new_len <= original_len:
+                display_chord = new_chord.ljust(original_len)
+                text_chars[start:end] = list(display_chord)
+            else:
+                continue
 
         return "".join(text_chars)
 
